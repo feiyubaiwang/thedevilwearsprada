@@ -1,0 +1,6 @@
+# minitool-zip-builder 构建工具（按需下载，不属于项目源码）
+.skill/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

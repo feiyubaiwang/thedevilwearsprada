@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RUNWAY: The Career Ascent - Workplace English Quest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>RUNWAY: The Career Ascent - 职场高阶沟通与战略决策模拟</title>
   <style>
     :root {
       --primary: #A61F38;
       --primary-dark: #7E1528;
-      --primary-light: #F9EBEF;
+      --primary-light: #FBF0F2;
+      --primary-border: #E8B4BF;
       --charcoal: #1F2024;
+      --charcoal-soft: #33363D;
       --gray-medium: #5F6368;
-      --gray-light: #F4F3F0;
-      --border-color: #E2DFD9;
+      --gray-light: #F5F4F0;
+      --border-color: #E3DFD7;
       --card-bg: #FFFFFF;
-      --gold: #C5A059;
+      --gold: #A37F38;
       --success-green: #1E7E34;
       --warning-amber: #B38600;
+      --zh-muted: #80676E;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html {
+      touch-action: manipulation;
     }
 
     body {
@@ -38,27 +45,36 @@
     header {
       background-color: #FFFFFF;
       border-bottom: 2px solid var(--border-color);
-      padding: 16px 28px;
+      padding: 14px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .brand {
       display: flex;
+      flex-direction: column;
+    }
+
+    .brand-row {
+      display: flex;
       align-items: baseline;
-      gap: 12px;
+    }
+    .brand-row > * + * {
+      margin-left: 10px;
     }
 
     .brand h1 {
-      font-size: 20px;
+      font-size: 22px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--primary);
-      font-weight: 700;
+      font-weight: 800;
+      line-height: 1;
     }
 
     .brand span {
@@ -66,12 +82,15 @@
       color: var(--gray-medium);
       text-transform: uppercase;
       letter-spacing: 1px;
+      font-weight: 600;
     }
 
     .header-tracker {
       display: flex;
       align-items: center;
-      gap: 18px;
+    }
+    .header-tracker > * + * {
+      margin-left: 16px;
     }
 
     .level-badge {
@@ -79,6 +98,7 @@
       font-weight: bold;
       color: var(--primary);
       background: var(--primary-light);
+      border: 1px solid var(--primary-border);
       padding: 5px 14px;
       border-radius: 20px;
       letter-spacing: 0.5px;
@@ -86,8 +106,11 @@
 
     .score-badge {
       font-size: 12px;
-      color: var(--charcoal);
+      color: var(--charcoal-soft);
       font-weight: 600;
+      background: var(--gray-light);
+      padding: 5px 12px;
+      border-radius: 16px;
     }
 
     main {
@@ -95,14 +118,14 @@
       max-width: 860px;
       width: 100%;
       margin: 0 auto;
-      padding: 36px 20px 60px;
+      padding: 30px 20px 60px;
     }
 
     .view-panel {
       display: none;
       opacity: 0;
       transform: translateY(8px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .view-panel.active {
@@ -111,14 +134,26 @@
       transform: translateY(0);
     }
 
-    .intro-hero {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-top: 4px solid var(--primary);
-      padding: 42px 36px;
-      border-radius: 6px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    .sub-zh {
+      display: block;
+      font-size: 0.85em;
+      color: var(--zh-muted);
+      font-weight: 400;
+      margin-top: 3px;
+      line-height: 1.45;
+    }
+
+    .sub-zh-lead {
+      display: block;
+      font-size: 0.88em;
+      color: #6C665D;
+      font-weight: 400;
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .tagline-group {
+      margin-bottom: 12px;
     }
 
     .tagline {
@@ -126,29 +161,63 @@
       font-size: 12px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      font-weight: bold;
-      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .tagline-zh {
+      color: var(--primary-dark);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .intro-hero {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--primary);
+      padding: 40px 36px;
+      border-radius: 6px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
     }
 
     .intro-hero h2 {
       font-size: 26px;
-      margin-bottom: 18px;
-      font-weight: normal;
+      margin-bottom: 4px;
+      font-weight: 700;
       letter-spacing: 0.5px;
       color: var(--charcoal);
     }
 
-    .intro-hero p {
-      font-size: 14px;
+    .intro-hero h2 .sub-zh {
+      font-size: 15px;
+      font-weight: 500;
       color: var(--gray-medium);
-      max-width: 640px;
-      margin: 0 auto 28px;
+      margin-top: 6px;
+      margin-bottom: 18px;
+    }
+
+    .intro-lead-box {
+      max-width: 680px;
+      margin: 0 auto 30px;
+      text-align: left;
+      background: #FAF8F5;
+      padding: 18px 24px;
+      border-radius: 6px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .intro-lead-box p {
+      font-size: 14px;
+      color: #2F3337;
       line-height: 1.7;
     }
 
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      grid-gap: 16px;
       gap: 16px;
       margin-bottom: 36px;
       text-align: left;
@@ -157,16 +226,19 @@
     .feature-box {
       background: var(--gray-light);
       padding: 18px;
-      border-radius: 4px;
-      font-size: 12px;
-      border: 1px solid #ECE9E2;
+      border-radius: 6px;
+      font-size: 12.5px;
+      border: 1px solid #ECE7DE;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .feature-box strong {
       display: block;
       color: var(--charcoal);
-      margin-bottom: 6px;
-      font-size: 13px;
+      font-size: 13.5px;
+      margin-bottom: 2px;
     }
 
     .btn {
@@ -175,21 +247,32 @@
       border: none;
       padding: 13px 32px;
       font-size: 13px;
-      letter-spacing: 1.2px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       font-weight: bold;
       cursor: pointer;
       border-radius: 4px;
       transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
       user-select: none;
       touch-action: manipulation;
-      box-shadow: 0 2px 8px rgba(166, 31, 56, 0.25);
+      box-shadow: 0 2px 10px rgba(166, 31, 56, 0.25);
+    }
+
+    .btn .btn-sub {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: none;
+      opacity: 0.92;
+      margin-top: 2px;
     }
 
     .btn:hover {
       background-color: var(--primary-dark);
-      box-shadow: 0 4px 12px rgba(126, 21, 40, 0.35);
+      box-shadow: 0 4px 14px rgba(126, 21, 40, 0.35);
     }
 
     .btn:active {
@@ -197,17 +280,17 @@
     }
 
     .progress-bar-container {
-      background: #E5E2DC;
+      background: #E5E1D8;
       height: 6px;
       border-radius: 3px;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
       overflow: hidden;
     }
 
     .progress-bar {
-      background: var(--primary);
+      background: linear-gradient(90deg, var(--primary), #D63353);
       height: 100%;
-      width: 5%;
+      width: 6.66%;
       transition: width 0.35s ease;
     }
 
@@ -216,7 +299,7 @@
       border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 32px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     }
 
     .stage-indicator {
@@ -229,36 +312,40 @@
     }
 
     .stage-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: bold;
-      color: var(--gray-medium);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+    .stage-title > * + * {
+      margin-left: 6px;
     }
 
     .role-badge {
-      font-size: 11px;
-      padding: 4px 10px;
-      background: var(--gray-light);
-      border-radius: 3px;
+      font-size: 11.5px;
+      padding: 4px 12px;
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      border-radius: 4px;
       font-weight: 600;
-      color: var(--charcoal);
+      color: var(--primary-dark);
     }
 
     .speaker-section {
       background: #FDFBF9;
-      border-left: 3px solid var(--primary);
+      border-left: 3.5px solid var(--primary);
       padding: 18px 22px;
-      margin-bottom: 26px;
-      border-radius: 0 4px 4px 0;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
     }
 
     .speaker-name {
-      font-size: 12px;
-      font-weight: bold;
+      font-size: 12.5px;
+      font-weight: 700;
       color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       margin-bottom: 6px;
     }
 
@@ -266,39 +353,55 @@
       font-size: 15px;
       font-style: italic;
       color: #2D3136;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .prompt-label {
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gray-medium);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--charcoal);
       margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .prompt-label > * + * {
+      margin-left: 6px;
+    }
+
+    .prompt-label::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 2px;
     }
 
     .options-list {
       display: flex;
       flex-direction: column;
-      gap: 13px;
       margin-bottom: 24px;
+    }
+    .options-list > * + * {
+      margin-top: 13px;
     }
 
     .option-card {
       background: #FFFFFF;
       border: 1px solid var(--border-color);
       padding: 16px 20px;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+      transition: all 0.2s ease;
       display: flex;
       align-items: flex-start;
-      gap: 14px;
-      font-size: 13.5px;
+      font-size: 14px;
       line-height: 1.55;
       user-select: none;
       touch-action: manipulation;
+    }
+    .option-card > * + * {
+      margin-left: 14px;
     }
 
     .option-card:hover {
@@ -311,8 +414,8 @@
       background: var(--gray-light);
       color: var(--charcoal);
       font-weight: bold;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -333,31 +436,58 @@
       color: #FFFFFF;
     }
 
+    .option-card.disabled {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
     .feedback-box {
       display: none;
-      background: #F9F9F8;
-      border-top: 2px solid var(--primary);
-      padding: 18px 22px;
+      background: #FAF8F5;
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--primary);
+      padding: 20px 22px;
       margin-top: 20px;
-      border-radius: 0 0 5px 5px;
+      border-radius: 6px;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
     }
 
     .feedback-title {
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
     }
 
     .feedback-title.excellent { color: var(--success-green); }
     .feedback-title.adequate { color: var(--warning-amber); }
     .feedback-title.flawed { color: var(--primary); }
 
+    .feedback-score-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #FFFFFF;
+      border: 1px solid currentColor;
+    }
+
     .feedback-text {
-      font-size: 13px;
-      color: var(--charcoal);
+      font-size: 13.5px;
+      color: #2F3337;
       margin-bottom: 18px;
+      line-height: 1.65;
     }
 
     .result-hero {
@@ -366,39 +496,54 @@
       border-top: 4px solid var(--primary);
       padding: 38px 32px;
       border-radius: 6px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
     }
 
     .result-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .result-rank {
-      font-size: 24px;
+      font-size: 26px;
       color: var(--primary);
-      margin: 10px 0 6px;
-      font-weight: bold;
+      margin: 10px 0 4px;
+      font-weight: 800;
       letter-spacing: 0.5px;
     }
 
+    .result-rank .sub-zh {
+      font-size: 16px;
+      font-weight: 600;
+      color: #555A61;
+      margin-top: 4px;
+    }
+
     .result-subtitle {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--gray-medium);
+      font-weight: 600;
+      margin-top: 6px;
     }
 
     .result-content-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-gap: 32px;
       gap: 32px;
       align-items: center;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
     .chart-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      background: #FCFAF7;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
     }
 
     canvas {
@@ -407,40 +552,74 @@
     }
 
     .profile-description h3 {
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 15px;
+      letter-spacing: 0.5px;
       color: var(--charcoal);
-      margin-bottom: 12px;
+      margin-bottom: 6px;
+      font-weight: 700;
       border-bottom: 1px solid var(--gray-light);
       padding-bottom: 6px;
     }
 
-    .profile-description p {
+    .profile-description .sub-zh {
+      font-size: 12.5px;
+      color: var(--gray-medium);
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+
+    .profile-text-en {
       font-size: 13px;
-      color: #3B3E43;
-      line-height: 1.7;
-      margin-bottom: 16px;
+      color: #2F3337;
+      line-height: 1.65;
+      margin-bottom: 4px;
+    }
+
+    .profile-text-zh {
+      font-size: 12.5px;
+      color: #61656B;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      padding-left: 10px;
+      border-left: 2px solid var(--primary-border);
     }
 
     .metrics-summary {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
       gap: 10px;
       background: var(--gray-light);
       padding: 14px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .metric-item {
+      background: #FFFFFF;
+      padding: 8px 12px;
       border-radius: 4px;
-      font-size: 11.5px;
+      border: 1px solid #ECE7DE;
     }
 
     .metric-item span {
       display: block;
+      color: var(--charcoal);
+      font-weight: 600;
+      font-size: 11.5px;
+    }
+
+    .metric-item .sub-zh {
+      font-size: 10.5px;
       color: var(--gray-medium);
+      margin-top: 1px;
+      margin-bottom: 4px;
     }
 
     .metric-item strong {
       color: var(--primary);
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .action-row {
@@ -452,13 +631,23 @@
 
     @media (max-width: 740px) {
       header {
-        padding: 14px 18px;
+        padding: 12px 16px;
+      }
+      .brand h1 {
+        font-size: 18px;
+      }
+      .header-tracker {
+        gap: 8px;
+      }
+      .level-badge, .score-badge {
+        font-size: 11px;
+        padding: 4px 8px;
       }
       .feature-grid, .result-content-grid {
         grid-template-columns: 1fr;
       }
       .intro-hero, .game-card, .result-hero {
-        padding: 24px 18px;
+        padding: 22px 16px;
       }
     }
   </style>
@@ -467,43 +656,63 @@
 
   <header>
     <div class="brand">
-      <h1>Runway</h1>
-      <span>Workplace English Simulator</span>
+      <div class="brand-row">
+        <h1>Runway</h1>
+        <span>Workplace English Quest</span>
+      </div>
     </div>
     <div class="header-tracker" id="headerTracker" style="display: none;">
-      <span class="level-badge" id="levelBadge">Level 1 of 20</span>
-      <span class="score-badge" id="scoreBadge">Score: 0 / 60</span>
+      <span class="level-badge" id="levelBadge">关卡 1 / 15</span>
+      <span class="score-badge" id="scoreBadge">得分: 0 / 45</span>
     </div>
   </header>
 
   <main>
     <section id="introView" class="view-panel active">
       <div class="intro-hero">
-        <div class="tagline">Workplace Communication Simulation</div>
-        <h2>Step Into Andy Sachs' Shoes</h2>
-        <p>
-          Welcome to Runway Magazine. Inspired by <em>The Devil Wears Prada</em>, 
-          you will navigate 20 authentic career milestones—from high-pressure interviews 
-          and office politics to crisis management and ethical choices. 
-          Make strategic decisions, master workplace English, and discover your true executive archetype.
-        </p>
+        <h2>
+          Step Into Andy Sachs' Shoes
+          <span class="sub-zh">化身安迪·萨克斯，开启你的职场蜕变之旅</span>
+        </h2>
+
+        <div class="intro-lead-box">
+          <p>
+            Welcome to Runway Magazine. Inspired by <em>The Devil Wears Prada</em>, 
+            you will navigate 15 authentic career milestones—from high-pressure interviews 
+            and office politics to crisis management and ethical choices. 
+            Make strategic decisions, master workplace English, and discover your true executive archetype.
+          </p>
+          <p class="sub-zh-lead">
+            欢迎入职《Runway》时尚杂志。沉浸于经典电影《穿普拉达的女王》职场世界，你将亲历15个关键生涯节点——从高压面试、职场政治到危机公关与道德抉择。制定高阶沟通策略，精通职场地道英文，探索你的职场人格原型。
+          </p>
+        </div>
 
         <div class="feature-grid">
           <div class="feature-box">
-            <strong>20 Authentic Milestones</strong>
-            Screenings, boss crises, client negotiations, and career pivots.
+            <strong>15个真实进阶关卡</strong>
+            <div style="color: var(--gray-medium); line-height: 1.5; margin-top: 6px;">
+              涵盖高压面试、突发危机、客户谈判与生涯关键转折点。
+            </div>
           </div>
+
           <div class="feature-box">
-            <strong>Real Movie Dynamics</strong>
-            Interact with Miranda, Emily, Nigel, Irv Ravitz, and James Holt.
+            <strong>原汁原味电影群像交锋</strong>
+            <div style="color: var(--gray-medium); line-height: 1.5; margin-top: 6px;">
+              与米兰达、艾米莉、奈杰尔、董事长埃夫及设计师詹姆斯实时博弈。
+            </div>
           </div>
+
           <div class="feature-box">
-            <strong>5-Dimension Radar</strong>
-            Get assessed on Acumen, Resilience, Diplomacy, Resourcefulness, and Integrity.
+            <strong>五维职场能力雷达图</strong>
+            <div style="color: var(--gray-medium); line-height: 1.5; margin-top: 6px;">
+              全方位评估执行敏锐度、抗压情商、职场外交、应变搜商与价值原则。
+            </div>
           </div>
         </div>
 
-        <button class="btn" id="startBtn" onclick="handleStartGame()">Begin Career Quest</button>
+        <button class="btn" id="startBtn">
+          <span>开启职业通关测试</span>
+        </button>
       </div>
     </section>
 
@@ -514,22 +723,27 @@
 
       <div class="game-card">
         <div class="stage-indicator">
-          <span class="stage-title" id="stageTitle">Stage 1: Gatekeeper Screening</span>
-          <span class="role-badge" id="roleBadge">Colleague</span>
+          <span class="stage-title" id="stageTitle">关卡 1: 初见主编高压面试</span>
+          <span class="role-badge" id="roleBadge">对话角色: 主编 (Miranda Priestly)</span>
         </div>
 
         <div class="speaker-section">
-          <div class="speaker-name" id="speakerName">Emily Charlton (First Assistant)</div>
-          <div class="speakerQuote" id="speakerQuote">"Quote goes here"</div>
+          <div class="speaker-name" id="speakerName">米兰达·普里斯利 (Miranda Priestly - 主编)</div>
+          <div class="speaker-quote" id="speakerQuote">"Loading scenario..."</div>
         </div>
 
-        <div class="prompt-label">Your Response as Andy Sachs:</div>
+        <div class="prompt-label" id="promptLabel">你的应对策略 (Andy Sachs):</div>
         <div class="options-list" id="optionsList"></div>
 
         <div class="feedback-box" id="feedbackBox">
-          <div class="feedback-title" id="feedbackTitle">Strategy Analysis</div>
+          <div class="feedback-header">
+            <span class="feedback-title" id="feedbackTitle">策略深度解析</span>
+            <span class="feedback-score-tag" id="feedbackScoreTag">+3 分</span>
+          </div>
           <p class="feedback-text" id="feedbackText"></p>
-          <button class="btn" id="nextBtn">Proceed to Next Level</button>
+          <button class="btn" id="nextBtn">
+            <span id="nextBtnText">进入下一关</span>
+          </button>
         </div>
       </div>
     </section>
@@ -537,9 +751,11 @@
     <section id="resultView" class="view-panel">
       <div class="result-hero">
         <div class="result-header">
-          <div class="tagline">Assessment Complete</div>
-          <h2 class="result-rank" id="resultRank">The Strategic Executive</h2>
-          <div class="result-subtitle" id="resultFinalScore">Total Score: 56 / 60</div>
+          <div class="tagline-group">
+            <div class="tagline">能力评估报告已生成</div>
+          </div>
+          <h2 class="result-rank" id="resultRank">卓越战略执行家</h2>
+          <div class="result-subtitle" id="resultFinalScore">综合职场胜任力得分: 42 / 45</div>
         </div>
 
         <div class="result-content-grid">
@@ -548,969 +764,45 @@
           </div>
 
           <div class="profile-description">
-            <h3>Executive Profile</h3>
-            <p id="rankDescription">
-              Detailed assessment of how you balanced ambition, emotional resilience, 
-              and professional excellence.
+            <h3>职场管理原型深度洞察</h3>
+            <p class="profile-text-zh" id="rankDescriptionZh" style="margin-top: 12px; font-size: 13.5px; line-height: 1.8; color: #33363D; border-left: 3px solid var(--primary); padding-left: 12px;">
+              全景评估报告：解析你在高压竞争中如何平衡野心、情绪韧性与职业底线。
             </p>
 
-            <div class="metrics-summary">
+            <div class="metrics-summary" style="margin-top: 20px;">
               <div class="metric-item">
-                <span>Execution Acumen</span>
-                <strong id="mExecution">0%</strong>
+                <span style="font-size: 12px; color: var(--gray-medium);">执行敏锐度</span>
+                <strong id="mExecution" style="font-size: 15px;">0%</strong>
               </div>
               <div class="metric-item">
-                <span>Resilience &amp; EQ</span>
-                <strong id="mResilience">0%</strong>
+                <span style="font-size: 12px; color: var(--gray-medium);">抗压情商</span>
+                <strong id="mResilience" style="font-size: 15px;">0%</strong>
               </div>
               <div class="metric-item">
-                <span>Workplace Diplomacy</span>
-                <strong id="mDiplomacy">0%</strong>
+                <span style="font-size: 12px; color: var(--gray-medium);">职场外交</span>
+                <strong id="mDiplomacy" style="font-size: 15px;">0%</strong>
               </div>
               <div class="metric-item">
-                <span>Resourcefulness</span>
-                <strong id="mResource">0%</strong>
+                <span style="font-size: 12px; color: var(--gray-medium);">应变搜商</span>
+                <strong id="mResource" style="font-size: 15px;">0%</strong>
               </div>
               <div class="metric-item" style="grid-column: span 2;">
-                <span>Core Integrity &amp; Values</span>
-                <strong id="mIntegrity">0%</strong>
+                <span style="font-size: 12px; color: var(--gray-medium);">核心道德与底线</span>
+                <strong id="mIntegrity" style="font-size: 15px;">0%</strong>
               </div>
             </div>
           </div>
         </div>
 
         <div class="action-row">
-          <button class="btn" id="restartBtn" onclick="handleRestartGame()">Retake Assessment</button>
+          <button class="btn" id="restartBtn">
+            <span>重新开始测试</span>
+          </button>
         </div>
       </div>
     </section>
   </main>
 
-  <script>
-    const scenarios = [
-      {
-        stage: "Stage 1: Gatekeeper Screening",
-        role: "Senior Colleague / Gatekeeper",
-        speaker: "Emily Charlton (Miranda's First Assistant)",
-        quote: "Human Resources certainly has an odd sense of humor. We need someone who can survive here. A million girls would kill for this job. Do you understand?",
-        options: [
-          {
-            text: "I may not fit the traditional fashion mold, but I learn fast, I work harder than anyone, and I am ready to prove it.",
-            points: 3,
-            dims: { execution: 2, resilience: 2, diplomacy: 1, resource: 1, integrity: 2 },
-            feedback: "Excellent. Direct, confident, and focuses on professional value rather than defensive arguments."
-          },
-          {
-            text: "Yes, of course. I saw the opening and Elias-Clarke is reputable, so I hope Miranda likes my college writing portfolio.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 2, resource: 0, integrity: 1 },
-            feedback: "Acceptable, but overly academic. It shows limited awareness of the fast-paced editorial environment."
-          },
-          {
-            text: "Who is Miranda anyway? I just graduated and I really need a job that pays my rent.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Disastrous. Asking who the CEO or industry legend is reveals a fatal lack of pre-interview preparation."
-          }
-        ]
-      },
-      {
-        stage: "Stage 2: The Stress Interview",
-        role: "Top Boss / Industry Legend",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "So you don’t read Runway. Before today, you had never heard of me. And you have no style or sense of fashion.",
-        options: [
-          {
-            text: "You're right. I don't fit in here. But I'm smart, I adapt immediately, and I will execute every single assignment without excuses.",
-            points: 3,
-            dims: { execution: 2, resilience: 3, diplomacy: 1, resource: 1, integrity: 2 },
-            feedback: "Top tier. Owning your difference while projecting relentless work ethic is exactly what caught Miranda's eye."
-          },
-          {
-            text: "Well, I was editor-in-chief of the Daily Northwestern and won national awards, so writing matters more than clothes.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 0, resource: 1, integrity: 2 },
-            feedback: "Passable but tone-deaf. Lecturing an executive about what matters in her own industry comes off as stubborn."
-          },
-          {
-            text: "Style depends on personal opinion. I think comfort and warmth are more sensible than designer brands.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Defensive and naive. Debating personal taste during a stress interview instantly ends consideration."
-          }
-        ]
-      },
-      {
-        stage: "Stage 3: Social Doubts & Reality Check",
-        role: "Partner & Friends / Support Circle",
-        speaker: "Nate & Doug (Partner & Friend)",
-        quote: "Come on, Andy. You're going to be answering phones and fetching coffee. Do you really need to take this so seriously?",
-        options: [
-          {
-            text: "It is an entry position. If I survive one year with Miranda, I can pitch to any major publisher in New York.",
-            points: 3,
-            dims: { execution: 2, resilience: 2, diplomacy: 2, resource: 2, integrity: 2 },
-            feedback: "Clear career strategy. Recognizing entry-level grit as an investment toward long-term goals."
-          },
-          {
-            text: "You're probably right, it's just to pay rent for now while I keep sending out articles on the side.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Comfortable, but lacks conviction. Treating your current role as merely disposable limits your performance."
-          },
-          {
-            text: "Yeah, the office is ridiculous and the people act like they are curing diseases. I won't care too much.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Cynical. Entering any demanding organization with contempt guarantees frustration and careless mistakes."
-          }
-        ]
-      },
-      {
-        stage: "Stage 4: Onboarding & Desk Protocols",
-        role: "Senior Colleague / Peer Leader",
-        speaker: "Emily Charlton (Miranda's First Assistant)",
-        quote: "The phone must be answered every single time it rings. If calls roll to voicemail, she gets furious. You are chained to that desk.",
-        options: [
-          {
-            text: "Understood. The desk will always be covered, and every message will be logged with names and exact times.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 2, resource: 1, integrity: 1 },
-            feedback: "Flawless onboarding response. Shows respect for basic operational hygiene and eliminates ambiguity."
-          },
-          {
-            text: "Got it. But what should I do if I need to run to the restroom or grab lunch?",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Practical question, but raises trivial personal logistics before demonstrating desk control."
-          },
-          {
-            text: "That seems excessive for phone calls. Surely people leave voicemails in modern business.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Resisting established company ground rules before understanding the executive's working pace."
-          }
-        ]
-      },
-      {
-        stage: "Stage 5: First High-Pressure Blunder",
-        role: "Top Boss / Executive Director",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "Details of your incompetence do not interest me. Did Demarchelier confirm or not?",
-        options: [
-          {
-            text: "Calling Patrick Demarchelier directly right now, Miranda. I will confirm the shoot within five minutes.",
-            points: 3,
-            dims: { execution: 3, resilience: 3, diplomacy: 1, resource: 2, integrity: 1 },
-            feedback: "Masterclass in upward communication: zero excuses, immediate ownership, and clear time-bound action."
-          },
-          {
-            text: "I have his contact here and will connect you immediately. I've updated the log so this won't happen again.",
-            points: 2,
-            dims: { execution: 2, resilience: 1, diplomacy: 2, resource: 1, integrity: 1 },
-            feedback: "Solid and respectful, though acting immediately before explaining the log is preferred under fire."
-          },
-          {
-            text: "I'm so sorry, Miranda! I tried to reach his studio last night, but his assistant didn't pick up the line...",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Classic beginner trap. High-level executives want solutions and status, not stories of why things failed."
-          }
-        ]
-      },
-      {
-        stage: "Stage 6: Multitasking Overload",
-        role: "Senior Colleague / Task Delegation",
-        speaker: "Emily Charlton (First Assistant)",
-        quote: "Pick up 25 Hermès scarves, pick up Cassidy's homework at Dalton, and get hot Starbucks before Miranda returns.",
-        options: [
-          {
-            text: "Route confirmed: Hermès first, then Dalton school, and Starbucks last so the coffee stays piping hot. On my way.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 2, resource: 2, integrity: 1 },
-            feedback: "Strategic execution. Sequencing tasks by constraints (keeping coffee hot) proves operational intelligence."
-          },
-          {
-            text: "I will do my best, but traffic is terrible today. I might have to skip the scarves if time runs out.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Realistic but prematurely negotiating down expectations without first attempting smart routing."
-          },
-          {
-            text: "Wait, can you repeat all that? How can anyone be in three different parts of Manhattan at once?",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Panic reaction. Projecting overwhelm to teammates creates friction and slows everyone down."
-          }
-        ]
-      },
-      {
-        stage: "Stage 7: Industry Culture & Belonging",
-        role: "Creative Mentor / Art Director",
-        speaker: "Nigel Kipling (Art Director)",
-        quote: "Corn chowder? That's an interesting choice. Cellulite is one of the main ingredients. Do you really plan to eat that here?",
-        options: [
-          {
-            text: "I see your point, Nigel. Every workplace has its culture. I'm learning how to balance my comfort with this world.",
-            points: 3,
-            dims: { execution: 1, resilience: 2, diplomacy: 3, resource: 1, integrity: 2 },
-            feedback: "Poised and self-aware. Acknowledging organizational nuances without losing your cool or self-worth."
-          },
-          {
-            text: "It's just lunch, Nigel. I need real energy if I'm going to run errands across the city all afternoon.",
-            points: 2,
-            dims: { execution: 2, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Reasonable and grounded, though misses the opportunity to connect with Nigel on a deeper level."
-          },
-          {
-            text: "I'm not going to starve myself just because other people in this office only eat celery.",
-            points: 1,
-            dims: { execution: 0, resilience: 1, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Combative and defensive. Treating casual peer banter as a moral attack alienates potential mentors."
-          }
-        ]
-      },
-      {
-        stage: "Stage 8: The Cerulean Belt Principle",
-        role: "Top Boss / The Big Picture",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "Something funny? You think this has nothing to do with you. You selected that lumpy blue sweater, completely blind to the fact that it represents millions of dollars and countless jobs.",
-        options: [
-          {
-            text: "[Listen in silence, observe the depth of industry economics, and acknowledge the lesson with a respectful nod].",
-            points: 3,
-            dims: { execution: 2, resilience: 3, diplomacy: 2, resource: 1, integrity: 2 },
-            feedback: "The absolute right move. When an industry titan dismantles your arrogance with facts, silence and absorption show maturity."
-          },
-          {
-            text: "I apologize, Miranda. I spoke without thinking and I did not realize how much strategy goes into these small details.",
-            points: 2,
-            dims: { execution: 1, resilience: 2, diplomacy: 2, resource: 1, integrity: 1 },
-            feedback: "A polite apology, though interrupting Miranda's lecture mid-flow risks further irritation."
-          },
-          {
-            text: "I was only chuckling because from where I'm standing, those two turquoise belts look identical.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 0 },
-            feedback: "Double down on ignorance. Dismissing specialized domain knowledge as pointless ruins credibility."
-          }
-        ]
-      },
-      {
-        stage: "Stage 9: Overcoming the Victim Mindset",
-        role: "Honest Mentor / Senior Colleague",
-        speaker: "Nigel Kipling (Art Director)",
-        quote: "Andy, be serious. You are not trying. You are whining. Do you want a gold star on your homework at the end of every day?",
-        options: [
-          {
-            text: "You're right. I've been treating this job like a burden instead of an opportunity. Teach me what I need to change.",
-            points: 3,
-            dims: { execution: 2, resilience: 3, diplomacy: 2, resource: 3, integrity: 2 },
-            feedback: "The crucial turning point. Embracing tough love from a senior mentor is the hallmark of high-potential talent."
-          },
-          {
-            text: "I don't expect a medal, Nigel. I just think basic workplace decency shouldn't be too much to ask.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 2 },
-            feedback: "Morally understandable, but practically unhelpful when you haven't yet mastered the basic operational rhythm."
-          },
-          {
-            text: "That's unfair! I work 16 hours a day and she never acknowledges anything I do right.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Pure victim mindset. Expecting constant emotional validation in elite, high-stress environments leads to burnout."
-          }
-        ]
-      },
-      {
-        stage: "Stage 10: Professional Transformation",
-        role: "Peer Observers / Office Atmosphere",
-        speaker: "Emily Charlton & Serena",
-        quote: "Are you wearing... are you wearing the Chanel boots? How did you even pull that together?",
-        options: [
-          {
-            text: "Yes, I am. And I've already reorganized the morning call sheets and confirmed tomorrow's shoot schedule.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 3, resource: 2, integrity: 1 },
-            feedback: "Brilliant. Demonstrates executive presence while instantly grounding the conversation in operational competence."
-          },
-          {
-            text: "Yes! Nigel helped me raid the sample closet. Do you really think they look good on me?",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 2, resource: 2, integrity: 1 },
-            feedback: "Friendly, but slightly too eager for peer validation. Let your quiet confidence speak for itself."
-          },
-          {
-            text: "Nigel made me wear them. Honestly, high heels are terribly impractical for running errands.",
-            points: 1,
-            dims: { execution: 0, resilience: 1, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Belittles your own visual upgrade. If you adopt professional polish, own it without mock humility."
-          }
-        ]
-      },
-      {
-        stage: "Stage 11: Protecting Confidential Assets",
-        role: "Key External Partner / Lead Designer",
-        speaker: "James Holt (Fashion Designer)",
-        quote: "This is the top-secret sketch of Miranda's dress for the gala. Centerpiece of my spring line. Guard it with your life.",
-        options: [
-          {
-            text: "Consider it secure. It will remain in this locked portfolio until I hand-deliver it directly to Miranda's desk.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 2, resource: 2, integrity: 3 },
-            feedback: "Exemplary client diplomacy. Reassures high-profile creative partners that proprietary work is completely safe."
-          },
-          {
-            text: "I'll do my best to keep it safe, though I have three other deliveries to complete before heading back.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Honest about workload, but needlessly injects anxiety into the client's mind."
-          },
-          {
-            text: "Don't worry, James. Nobody in my neighborhood would even know what this sketch is anyway.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Careless humor. Treating proprietary intellectual property casually destroys trust with external stakeholders."
-          }
-        ]
-      },
-      {
-        stage: "Stage 12: Professional Boundaries & Charm",
-        role: "Industry Contact / Influential Writer",
-        speaker: "Christian Thompson (High-Profile Journalist)",
-        quote: "You'll never survive Miranda. But I like your writing and I can introduce you to major editors. Come have a drink with me.",
-        options: [
-          {
-            text: "I appreciate the offer and would value your editorial insights, but my duty tonight is delivering Miranda's materials first.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 3, resource: 2, integrity: 3 },
-            feedback: "Impeccable balance. Keeps the professional connection warm while honoring current workplace responsibilities."
-          },
-          {
-            text: "Thanks, Christian. Let's exchange contact info and discuss article submissions during standard business hours.",
-            points: 2,
-            dims: { execution: 2, resilience: 1, diplomacy: 2, resource: 2, integrity: 2 },
-            feedback: "Polite and firm boundary, though missing a slight touch of networking finesse."
-          },
-          {
-            text: "Really? Miranda is completely impossible. Take me with you right now and introduce me to your editor!",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 1, integrity: 0 },
-            feedback: "Unprofessional opportunism. Abandoning primary duties for a vague promise from a charming acquaintance."
-          }
-        ]
-      },
-      {
-        stage: "Stage 13: The Hurricane Crisis",
-        role: "Top Boss / Extreme Pressure",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "All commercial flights from Miami are grounded. The twins have their recital tomorrow morning. Call Donatella, call Irv. Get me home.",
-        options: [
-          {
-            text: "I am contacting private air charters and every VIP network right now, and will update you with alternative routes every fifteen minutes.",
-            points: 3,
-            dims: { execution: 3, resilience: 3, diplomacy: 2, resource: 3, integrity: 1 },
-            feedback: "Relentless problem-solving. Showing proactive effort and structured status reporting under impossible odds."
-          },
-          {
-            text: "I will call Donatella's flight team immediately, but safety regulations may prevent any private jet takeoff.",
-            points: 2,
-            dims: { execution: 2, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Complies with the instruction, but hedges before taking aggressive action."
-          },
-          {
-            text: "Miranda, there is a category hurricane. The FAA has shut down all airspace. Nobody can legally fly.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Factual, but fatal in tone. Presenting a hard 'no' to an irrational executive without demonstrating effort causes an explosion."
-          }
-        ]
-      },
-      {
-        stage: "Stage 14: The Impossible Deliverable",
-        role: "Top Boss / Ultimate Hurdle",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "My girls want the unpublished Harry Potter manuscript by 3:00 PM. If you don't have it by then, don't bother coming back.",
-        options: [
-          {
-            text: "[Mobilize your network, secure preview galleys from publishing contacts, bind two clean copies, and place them on the twins' train seats].",
-            points: 3,
-            dims: { execution: 3, resilience: 3, diplomacy: 2, resource: 3, integrity: 2 },
-            feedback: "Legendary resourcefulness. Going beyond the baseline requirement by anticipating convenience (delivering directly to the train)."
-          },
-          {
-            text: "I am contacting key publishing contacts right now to locate advance galleys, while setting up a backup alert with the publisher's editorial desk.",
-            points: 2,
-            dims: { execution: 2, resilience: 2, diplomacy: 1, resource: 2, integrity: 1 },
-            feedback: "Active and diligent investigation, though still pending definitive resolution."
-          },
-          {
-            text: "Miranda, unpublished manuscripts are locked under strict legal NDAs. It is legally impossible to acquire that book.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Self-limiting surrender. Elite assistants find unconventional, legitimate paths rather than giving up."
-          }
-        ]
-      },
-      {
-        stage: "Stage 15: C-Suite Scrutiny",
-        role: "Corporate Executive / Chairman",
-        speaker: "Irv Ravitz (Chairman, Elias-Clarke Publishing)",
-        quote: "I hear Miranda killed the autumn jackets spread and cost us $300,000 for Sedona. Must have been some lousy jackets. What's going on up there?",
-        options: [
-          {
-            text: "Miranda made a bold editorial investment, Mr. Ravitz, to ensure our September issue sets the undisputed industry benchmark.",
-            points: 3,
-            dims: { execution: 2, resilience: 2, diplomacy: 3, resource: 2, integrity: 3 },
-            feedback: "Flawless corporate loyalty. Defends your direct boss's strategic vision without alienating the Chairman."
-          },
-          {
-            text: "I only manage office logistics and schedules, Mr. Ravitz, so I can't speak on creative editorial budgets.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 2, resource: 0, integrity: 1 },
-            feedback: "Safe and non-committal, though dodges the chance to show strategic team alignment."
-          },
-          {
-            text: "Honestly, Mr. Ravitz, she scraps projects on a whim and it creates enormous chaos for the staff.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 0 },
-            feedback: "Corporate suicide. Badmouthing your executive to the board chairman marks you as disloyal and untrustworthy."
-          }
-        ]
-      },
-      {
-        stage: "Stage 16: The High-Stakes Gala",
-        role: "Struggling Colleague / Crucial Moment",
-        speaker: "Emily Charlton (Ill & Panicking)",
-        quote: "Oh God, who is he? I've studied the guest list for weeks and my fever is blurring my eyes... Miranda is turning around right now!",
-        options: [
-          {
-            text: "[Step in smoothly and whisper into Miranda's ear]: 'Ambassador Franklin, and his guest Rebecca.'",
-            points: 3,
-            dims: { execution: 3, resilience: 3, diplomacy: 3, resource: 2, integrity: 2 },
-            feedback: "Flawless wingman execution. Saves the team, rescues the executive from embarrassment, and covers for a peer."
-          },
-          {
-            text: "[Speak up loudly across the hall]: 'Welcome Ambassador Franklin! Good evening!'",
-            points: 2,
-            dims: { execution: 2, resilience: 1, diplomacy: 1, resource: 1, integrity: 1 },
-            feedback: "Rescues the situation, but lacks the refined discretion required at high-profile diplomatic events."
-          },
-          {
-            text: "[Stay quiet and let Emily handle her own assignment, since she warned you not to overstep].",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 0 },
-            feedback: "Passive-aggressive failure. Watching a colleague drown in front of your boss harms the entire department."
-          }
-        ]
-      },
-      {
-        stage: "Stage 17: The Promotion Dilemma",
-        role: "Top Boss / Tough Decision",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "Emily is no longer coming to Paris. I need the best team with me. If you refuse, I will assume you are not serious about your future here or anywhere else.",
-        options: [
-          {
-            text: "I accept the responsibility, Miranda. I will manage Paris with full commitment, and I will inform Emily directly myself.",
-            points: 3,
-            dims: { execution: 3, resilience: 2, diplomacy: 2, resource: 2, integrity: 2 },
-            feedback: "The reality of corporate advancement. Accepting the hard promotion while having the courage to break the news personally."
-          },
-          {
-            text: "I will go, but only if you explain the decision to Emily so she doesn't think I sabotaged her.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 0, integrity: 1 },
-            feedback: "Shifting the difficult interpersonal conversation back onto the CEO weakens your executive maturity."
-          },
-          {
-            text: "No, Miranda. Emily has starved herself for this for months. I refuse to take her dream away.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 2 },
-            feedback: "Emotional defiance. Defying an ultimatum without a viable compromise ends your career on the spot."
-          }
-        ]
-      },
-      {
-        stage: "Stage 18: Celebrating a Peer's Break",
-        role: "Trusted Ally / Mentor",
-        speaker: "Nigel Kipling (Art Director)",
-        quote: "Massimo Corteleoni is investing in James Holt and taking it global. Bags, shoes, perfumes. And James needs a partner. That partner is me.",
-        options: [
-          {
-            text: "Nobody deserves this more than you, Nigel. You taught me the true meaning of craft and dedication in this building.",
-            points: 3,
-            dims: { execution: 1, resilience: 1, diplomacy: 3, resource: 1, integrity: 3 },
-            feedback: "Generous and sincere. Recognizing a mentor's milestone reinforces lifetime professional alliances."
-          },
-          {
-            text: "Congratulations Nigel! But honestly, how is Runway going to survive without your eye?",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 2, resource: 1, integrity: 1 },
-            feedback: "Warm compliment, though slightly focuses on the office vacuum rather than Nigel's bright future."
-          },
-          {
-            text: "Are you sure Miranda won't interfere? You know she always protects her own interests first.",
-            points: 1,
-            dims: { execution: 0, resilience: 1, diplomacy: 0, resource: 1, integrity: 1 },
-            feedback: "Pouring cold water on someone's celebration. Sowing doubt during a triumph damages friendship."
-          }
-        ]
-      },
-      {
-        stage: "Stage 19: Corporate Politics & Loyalty",
-        role: "Top Boss / Imminent Coup",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "Do I smell freesias? What could possibly be urgent enough for you to chase my car across Paris?",
-        options: [
-          {
-            text: "Miranda, Irv is planning to replace you with Jacqueline Follet today. I had to ensure you had the information to protect yourself.",
-            points: 3,
-            dims: { execution: 3, resilience: 3, diplomacy: 2, resource: 3, integrity: 3 },
-            feedback: "Unwavering loyalty. Bringing actionable intelligence to leadership during a leadership coup shows supreme commitment."
-          },
-          {
-            text: "Christian Thompson leaked Runway's confidential layout, and I think you should confront the board.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 2, integrity: 2 },
-            feedback: "Partial information that focuses on personal gossip rather than the strategic coup underway."
-          },
-          {
-            text: "Jacqueline Follet is plotting behind your back, but perhaps this is your sign to step back and take a break.",
-            points: 1,
-            dims: { execution: 0, resilience: 0, diplomacy: 0, resource: 0, integrity: 1 },
-            feedback: "Tone-deaf advice. Telling a fierce global leader to surrender her throne will never be received well."
-          }
-        ]
-      },
-      {
-        stage: "Stage 20: Defining Your Own Success",
-        role: "Top Boss / The Final Limo Ride",
-        speaker: "Miranda Priestly (Editor-in-Chief)",
-        quote: "I see a great deal of myself in you, Andrea. You can see beyond what people want and choose for yourself. Everybody wants to be us.",
-        options: [
-          {
-            text: "I respect what you built, Miranda, but stepping on trusted allies is a line I choose not to cross. My career will take a different road.",
-            points: 3,
-            dims: { execution: 2, resilience: 3, diplomacy: 2, resource: 2, integrity: 3 },
-            feedback: "The ultimate climax of character. Acknowledging the mentor's power while firmly defining your own ethical boundaries."
-          },
-          {
-            text: "I don't know what I want anymore, but I need time away from this industry to clear my head.",
-            points: 2,
-            dims: { execution: 1, resilience: 1, diplomacy: 1, resource: 1, integrity: 2 },
-            feedback: "Honest and human, though less decisive than consciously declaring your own path."
-          },
-          {
-            text: "You're right. To stay at the top of this game, you have to sacrifice personal feelings and do whatever it takes.",
-            points: 1,
-            dims: { execution: 2, resilience: 1, diplomacy: 0, resource: 1, integrity: 0 },
-            feedback: "Complete moral surrender. Trading personal ethics for cold corporate survival erodes long-term fulfillment."
-          }
-        ]
-      }
-    ];
-
-    let currentLevel = 0;
-    let totalScore = 0;
-    let currentOptions = [];
-    let isTransitioning = false;
-
-    function shuffleOptionsArray(arr) {
-      const copy = arr.slice();
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = copy[i];
-        copy[i] = copy[j];
-        copy[j] = temp;
-      }
-      return copy;
-    }
-
-    const userDimensions = {
-      execution: 0,
-      resilience: 0,
-      diplomacy: 0,
-      resource: 0,
-      integrity: 0
-    };
-
-    const maxDimensions = {
-      execution: 49,
-      resilience: 48,
-      diplomacy: 43,
-      resource: 38,
-      integrity: 41
-    };
-
-    function switchView(targetViewId) {
-      const views = ["introView", "gameView", "resultView"];
-      views.forEach(function(viewId) {
-        const el = document.getElementById(viewId);
-        if (el) {
-          if (viewId === targetViewId) {
-            el.style.display = "block";
-            setTimeout(function() {
-              el.classList.add("active");
-              el.style.opacity = "1";
-            }, 10);
-          } else {
-            el.classList.remove("active");
-            el.style.display = "none";
-            el.style.opacity = "0";
-          }
-        }
-      });
-    }
-
-    function handleStartGame() {
-      try {
-        currentLevel = 0;
-        totalScore = 0;
-        for (let k in userDimensions) {
-          userDimensions[k] = 0;
-        }
-
-        const tracker = document.getElementById("headerTracker");
-        if (tracker) {
-          tracker.style.display = "flex";
-        }
-
-        switchView("gameView");
-        renderQuestion();
-      } catch (err) {
-        console.error("Failed to start quest:", err);
-      }
-    }
-
-    function renderQuestion() {
-      const q = scenarios[currentLevel];
-      if (!q) return;
-
-      const levelBadge = document.getElementById("levelBadge");
-      const scoreBadge = document.getElementById("scoreBadge");
-      const progressBar = document.getElementById("progressBar");
-      const stageTitle = document.getElementById("stageTitle");
-      const roleBadge = document.getElementById("roleBadge");
-      const speakerName = document.getElementById("speakerName");
-      const speakerQuote = document.getElementById("speakerQuote");
-      const feedbackBox = document.getElementById("feedbackBox");
-      const optionsList = document.getElementById("optionsList");
-
-      if (levelBadge) levelBadge.textContent = "Level " + (currentLevel + 1) + " of " + scenarios.length;
-      if (scoreBadge) scoreBadge.textContent = "Score: " + totalScore + " / 60";
-      if (progressBar) {
-        const progressPercent = ((currentLevel + 1) / scenarios.length) * 100;
-        progressBar.style.width = progressPercent + "%";
-      }
-
-      if (stageTitle) stageTitle.textContent = q.stage;
-      if (roleBadge) roleBadge.textContent = q.role;
-      if (speakerName) speakerName.textContent = q.speaker;
-      if (speakerQuote) speakerQuote.textContent = "\u201C" + q.quote + "\u201D";
-
-      if (feedbackBox) feedbackBox.style.display = "none";
-
-      currentOptions = shuffleOptionsArray(q.options);
-
-      if (optionsList) {
-        optionsList.innerHTML = "";
-        const letters = ["A", "B", "C"];
-        currentOptions.forEach(function(opt, idx) {
-          const optCard = document.createElement("div");
-          optCard.className = "option-card";
-          optCard.setAttribute("role", "button");
-          optCard.setAttribute("tabindex", "0");
-          optCard.innerHTML = 
-            '<div class="option-letter">' + letters[idx] + '</div>' +
-            '<div class="option-text">' + opt.text + '</div>';
-          optCard.onclick = function() {
-            handleSelectOption(idx);
-          };
-          optCard.onkeydown = function(e) {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleSelectOption(idx);
-            }
-          };
-          optionsList.appendChild(optCard);
-        });
-      }
-    }
-
-    function handleSelectOption(index) {
-      const feedbackBox = document.getElementById("feedbackBox");
-      if (!feedbackBox || feedbackBox.style.display === "block") {
-        return;
-      }
-
-      const chosen = currentOptions[index];
-      if (!chosen) return;
-
-      const optionsList = document.getElementById("optionsList");
-      if (optionsList) {
-        const cards = optionsList.querySelectorAll(".option-card");
-        cards.forEach(function(c, idx) {
-          if (idx === index) {
-            c.classList.add("selected");
-          } else {
-            c.style.opacity = "0.5";
-            c.style.pointerEvents = "none";
-          }
-        });
-      }
-
-      totalScore += chosen.points;
-      const scoreBadge = document.getElementById("scoreBadge");
-      if (scoreBadge) {
-        scoreBadge.textContent = "Score: " + totalScore + " / 60";
-      }
-
-      for (let dim in chosen.dims) {
-        if (Object.prototype.hasOwnProperty.call(userDimensions, dim)) {
-          userDimensions[dim] += chosen.dims[dim];
-        }
-      }
-
-      const feedbackText = document.getElementById("feedbackText");
-      const feedbackTitle = document.getElementById("feedbackTitle");
-      const nextBtn = document.getElementById("nextBtn");
-
-      feedbackBox.style.display = "block";
-      if (feedbackText) feedbackText.textContent = chosen.feedback;
-
-      if (feedbackTitle) {
-        if (chosen.points === 3) {
-          feedbackTitle.textContent = "Optimal Response (+3 Points)";
-          feedbackTitle.className = "feedback-title excellent";
-        } else if (chosen.points === 2) {
-          feedbackTitle.textContent = "Adequate Approach (+2 Points)";
-          feedbackTitle.className = "feedback-title adequate";
-        } else {
-          feedbackTitle.textContent = "Flawed Strategy (+1 Point)";
-          feedbackTitle.className = "feedback-title flawed";
-        }
-      }
-
-      if (nextBtn) {
-        if (currentLevel === scenarios.length - 1) {
-          nextBtn.textContent = "View Career Assessment";
-        } else {
-          nextBtn.textContent = "Proceed to Next Level";
-        }
-      }
-    }
-
-    function handleNextScenario() {
-      // Prevent rapid or duplicate event execution
-      if (isTransitioning) return;
-      isTransitioning = true;
-
-      if (currentLevel < scenarios.length - 1) {
-        currentLevel++;
-        renderQuestion();
-      } else {
-        showResults();
-      }
-
-      // Release transition lock after UI renders
-      setTimeout(function() {
-        isTransitioning = false;
-      }, 300);
-    }
-
-    function handleRestartGame() {
-      handleStartGame();
-    }
-
-    function showResults() {
-      switchView("resultView");
-
-      const tracker = document.getElementById("headerTracker");
-      if (tracker) {
-        tracker.style.display = "none";
-      }
-
-      const resultFinalScore = document.getElementById("resultFinalScore");
-      if (resultFinalScore) {
-        resultFinalScore.textContent = "Total Career Score: " + totalScore + " / 60";
-      }
-
-      const scoresPct = {
-        execution: Math.min(100, Math.max(15, Math.round((userDimensions.execution / maxDimensions.execution) * 100))),
-        resilience: Math.min(100, Math.max(15, Math.round((userDimensions.resilience / maxDimensions.resilience) * 100))),
-        diplomacy: Math.min(100, Math.max(15, Math.round((userDimensions.diplomacy / maxDimensions.diplomacy) * 100))),
-        resource: Math.min(100, Math.max(15, Math.round((userDimensions.resource / maxDimensions.resource) * 100))),
-        integrity: Math.min(100, Math.max(15, Math.round((userDimensions.integrity / maxDimensions.integrity) * 100)))
-      };
-
-      const mExecution = document.getElementById("mExecution");
-      const mResilience = document.getElementById("mResilience");
-      const mDiplomacy = document.getElementById("mDiplomacy");
-      const mResource = document.getElementById("mResource");
-      const mIntegrity = document.getElementById("mIntegrity");
-
-      if (mExecution) mExecution.textContent = scoresPct.execution + "%";
-      if (mResilience) mResilience.textContent = scoresPct.resilience + "%";
-      if (mDiplomacy) mDiplomacy.textContent = scoresPct.diplomacy + "%";
-      if (mResource) mResource.textContent = scoresPct.resource + "%";
-      if (mIntegrity) mIntegrity.textContent = scoresPct.integrity + "%";
-
-      let rankTitle = "";
-      let rankDesc = "";
-
-      if (totalScore >= 52) {
-        rankTitle = "The Strategic Executive (Runway Vanguard)";
-        rankDesc = "You possess rare executive poise. Like Andy Sachs at her zenith, you anticipate crises before they unfold, master complex logistics, and command respect from formidable leaders like Miranda Priestly—all while preserving your core ethical compass.";
-      } else if (totalScore >= 44) {
-        rankTitle = "The Polished Specialist (The First Assistant)";
-        rankDesc = "You are highly dependable, sharp, and execute high-pressure assignments with distinction. You know every unwritten rule of the office, though you occasionally prioritize immediate pleasing over long-term strategic boundaries.";
-      } else if (totalScore >= 35) {
-        rankTitle = "The Pragmatic Explorer (The Daily Northwesterner)";
-        rankDesc = "You bring genuine intellect and capability, but you occasionally trip over unspoken organizational politics and emotional stressors. With thicker skin and greater tactical diplomacy, your upward trajectory will be unstoppable.";
-      } else {
-        rankTitle = "The Cerulean Skeptic (The Casual Bystander)";
-        rankDesc = "You tend to resist the established workplace culture before truly understanding its commercial depth. To ascend in elite organizations, replace resistance with strategic observation, master the fundamentals, and build strong alliances before seeking reform.";
-      }
-
-      const resultRank = document.getElementById("resultRank");
-      const rankDescription = document.getElementById("rankDescription");
-      if (resultRank) resultRank.textContent = rankTitle;
-      if (rankDescription) rankDescription.textContent = rankDesc;
-
-      drawRadarChart(scoresPct);
-    }
-
-    function drawRadarChart(scores) {
-      const canvas = document.getElementById("radarChart");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      const dpr = window.devicePixelRatio || 1;
-
-      const width = 340;
-      const height = 340;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-      ctx.scale(dpr, dpr);
-
-      ctx.clearRect(0, 0, width, height);
-
-      const labels = [
-        "Execution",
-        "Resilience",
-        "Diplomacy",
-        "Resourceful",
-        "Integrity"
-      ];
-
-      const dataValues = [
-        scores.execution / 100,
-        scores.resilience / 100,
-        scores.diplomacy / 100,
-        scores.resource / 100,
-        scores.integrity / 100
-      ];
-
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const radius = 100;
-      const totalAxes = labels.length;
-      const angleStep = (Math.PI * 2) / totalAxes;
-
-      const levels = 5;
-      ctx.strokeStyle = "#E2DFD9";
-      ctx.lineWidth = 1;
-
-      for (let lvl = 1; lvl <= levels; lvl++) {
-        const lvlRadius = (radius / levels) * lvl;
-        ctx.beginPath();
-        for (let i = 0; i < totalAxes; i++) {
-          const angle = i * angleStep - Math.PI / 2;
-          const x = centerX + lvlRadius * Math.cos(angle);
-          const y = centerY + lvlRadius * Math.sin(angle);
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-        ctx.stroke();
-      }
-
-      ctx.fillStyle = "#5F6368";
-      ctx.font = "10.5px Verdana";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      for (let i = 0; i < totalAxes; i++) {
-        const angle = i * angleStep - Math.PI / 2;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.lineTo(x, y);
-        ctx.strokeStyle = "#E2DFD9";
-        ctx.stroke();
-
-        const labelOffset = 22;
-        const labelX = centerX + (radius + labelOffset) * Math.cos(angle);
-        const labelY = centerY + (radius + labelOffset) * Math.sin(angle);
-        ctx.fillText(labels[i], labelX, labelY);
-      }
-
-      ctx.beginPath();
-      for (let i = 0; i < totalAxes; i++) {
-        const angle = i * angleStep - Math.PI / 2;
-        const val = Math.max(0.15, dataValues[i]);
-        const x = centerX + radius * val * Math.cos(angle);
-        const y = centerY + radius * val * Math.sin(angle);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-
-      ctx.fillStyle = "rgba(166, 31, 56, 0.22)";
-      ctx.fill();
-      ctx.strokeStyle = "#A61F38";
-      ctx.lineWidth = 2.2;
-      ctx.stroke();
-
-      for (let i = 0; i < totalAxes; i++) {
-        const angle = i * angleStep - Math.PI / 2;
-        const val = Math.max(0.15, dataValues[i]);
-        const x = centerX + radius * val * Math.cos(angle);
-        const y = centerY + radius * val * Math.sin(angle);
-
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = "#A61F38";
-        ctx.fill();
-        ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-      }
-    }
-
-    window.handleStartGame = handleStartGame;
-    window.handleNextScenario = handleNextScenario;
-    window.handleRestartGame = handleRestartGame;
-    window.handleSelectOption = handleSelectOption;
-
-    document.addEventListener("DOMContentLoaded", function() {
-      const startBtn = document.getElementById("startBtn");
-      if (startBtn) {
-        startBtn.onclick = handleStartGame;
-      }
-      const nextBtn = document.getElementById("nextBtn");
-      if (nextBtn) {
-        nextBtn.onclick = handleNextScenario;
-      }
-      const restartBtn = document.getElementById("restartBtn");
-      if (restartBtn) {
-        restartBtn.onclick = handleRestartGame;
-      }
-    });
-  </script>
+  <script src="./main.js"></script>
 </body>
 </html>
